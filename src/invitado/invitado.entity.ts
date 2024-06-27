@@ -14,9 +14,9 @@ export class Invitado {
   @Column()
   numero_invitacion: number;
 
-  @Column()
+  @Column({ default: 'N/A' })
   observaciones: string;
-
+}
 
   // Otros campos y métodos si es necesario
-}
+
