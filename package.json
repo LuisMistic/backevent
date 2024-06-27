@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "tsc && xcopy /E /exclude:exclude.txt src\\templates dist\\templates",
+    "build": "tsc && copyfiles -u 1 src/templates/**/* dist/templates",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "prestart": "echo Preparando para iniciar la aplicación...",
     "start": "nest start",
