@@ -1,0 +1,8 @@
+{
+    "webpack": {
+      "copyWebpackPluginPatterns": [
+        { "from": "src/templates", "to": "templates" }
+      ]
+    }
+  }
+  
