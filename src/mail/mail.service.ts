@@ -30,25 +30,24 @@ export class MailService {
       // Plantilla HTML del correo
       const htmlTemplate = `
         <!DOCTYPE html>
-        <html lang="es">
+        <html>
         <head>
           <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Confirmación de Inscripción</title>
           <style>
             body {
-              background-color: #000000; /* Fondo negro */
-              color: #ffffff; /* Texto blanco */
+              background-color: #ffffff; /* Fondo blanco */
+              color: #000000; /* Texto negro */
               font-family: Arial, sans-serif;
-              margin: 0;
               padding: 20px;
+              margin: 0;
             }
             .container {
               max-width: 600px;
               margin: 0 auto;
               padding: 20px;
-              background-color: #1a1a1a; /* Fondo gris oscuro */
+              background-color: #f7f7f7;
               border-radius: 10px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
             .header {
               text-align: center;
@@ -56,7 +55,7 @@ export class MailService {
             }
             .content {
               padding: 20px;
-              background-color: #333333; /* Fondo gris */
+              background-color: #ffffff;
               border-radius: 10px;
             }
             .footer {
