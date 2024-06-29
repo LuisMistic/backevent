@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "prestart": "echo Preparando para iniciar la aplicación...",
     "start": "nest start",
+      "smtp-test": "node smtp-test.js",
     "poststart": "echo Aplicación iniciada exitosamente.",
     "start:dev": "npm run build && nest start --watch",
     "start:debug": "nest start --debug --watch",
