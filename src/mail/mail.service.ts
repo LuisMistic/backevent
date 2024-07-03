@@ -70,11 +70,13 @@ export class MailService {
               <h1>¡Gracias por inscribirte al evento, ${name}!</h1>
             </div>
             <div class="content">
-              <p>Te estaremos informando a través de tu correo. Hay capacidad limitada, esperamos verte.</p>
-              <p>Estamos preparando este evento inspirado en la red de amistades que tejen a través de los tiempos el máximo valuarte que tenemos: Encontrarse. Una noche donde seguimos conservando la llama para que nunca se apague y hoy nos toca a nosotros para generar el puente de puerta a puerta en una casa abierta. La música, la comida y lo artesanal serán la danza que nos abrace. Próximamente te pasaremos más información. Capacidad limitada.</p>
+              <p>Te estaremos informando a través de tu correo. Recuerda que el evento comenzará puntualmente a las 20 hs en:</p>
+              <p>Casa Abierta<br>
+                 Calle San Salvador 3438, Remedios de Escalada, Lanús</p>
+              <p>Estamos preparando este evento inspirado en la red de amistades para encontrarse. Una noche donde seguimos conservando la llama y hoy nos toca a nosotros para generar el puente de puerta a puerta en una casa abierta. La música, la comida y lo artesanal serán la danza que nos abrace. Próximamente te pasaremos más información. Cupo limitado.</p>
             </div>
             <div class="footer">
-              <p>&copy;2024 Casa Abierta</p>
+              <p>&copy;2024 Casa Abierta</p> <p>casa-abierta.online</p>
             </div>
           </div>
         </body>
@@ -85,11 +87,19 @@ export class MailService {
       await this.transporter.sendMail({
         from: this.configService.get('EMAIL_USER'), // Dirección de correo del remitente
         to, // Dirección de correo del destinatario
+        cc: this.configService.get('EMAIL_USER'), // Copia del correo al remitente (cambiar según necesidad)
         subject: 'Confirmación de Registro', // Asunto del correo
         html: htmlTemplate, // Plantilla HTML del correo
       });
 
-      this.logger.log(`Correo de registro enviado a: ${to}`);
+      await this.transporter.sendMail({
+        from: this.configService.get('EMAIL_USER'), // Dirección de correo del remitente
+        to: 'luis.escalada21@gmail.com', // Dirección de tu correo personal
+        subject: 'Nuevo Registro de Invitado', // Asunto del correo
+        html: `Se ha registrado un nuevo invitado: ${name} (${to})`, // Mensaje de correo
+      });
+
+      this.logger.log(`Correos de registro enviados a: ${to} y ${'luis.escalada21@gmail.com'}`);
     } catch (error) {
       this.logger.error(`Error enviando correo de registro a: ${to}`, error);
       throw error; // Lanza el error para manejarlo en el nivel superior si es necesario

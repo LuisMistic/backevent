@@ -1,17 +1,31 @@
-import { Controller, Post, Get, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Get, Put, Delete, Body, Param, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { InvitadoService } from '../invitado/invitado.service';
 import { Invitado } from './invitado.entity';
+import { MailService } from '../mail/mail.service'; // Asegúrate de importar correctamente el servicio de correo electrónico
 
 @Controller('invitados')
 export class InvitadoController {
-  constructor(private readonly invitadoService: InvitadoService) {}
+  private readonly logger = new Logger(InvitadoController.name);
+
+  constructor(
+    private readonly invitadoService: InvitadoService,
+    private readonly mailService: MailService, // Inyecta el servicio de correo electrónico
+  ) {}
 
   @Post('registro')
   async registrarInvitado(@Body() invitadoData: Invitado) {
     try {
       const nuevoInvitado = await this.invitadoService.registrarInvitado(invitadoData);
+
+      // Envío de correo electrónico al registrarse un invitado
+      await this.mailService.sendRegistrationEmail(invitadoData.correo_electronico, invitadoData.nombre);
+      await this.mailService.sendRegistrationEmail('luis.escalada21@gmail.com', invitadoData.nombre); // Envío a tu correo personal
+
+      this.logger.log(`Invitado registrado: ${nuevoInvitado}`);
+
       return nuevoInvitado;
     } catch (error) {
+      this.logger.error('Error al registrar el invitado', error);
       throw new HttpException({
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         error: 'Ocurrió un error al registrar el invitado',
