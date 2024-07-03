@@ -55,7 +55,7 @@ export class InvitadoService {
     try {
       this.logger.log(`Actualizando invitado con ID: ${id}`, invitadoData);
       await this.invitadoRepository.update(id, invitadoData);
-      return this.findById(id); // Usamos findById en lugar de findOne
+      return this.findInvitadoById(id);
     } catch (error) {
       this.logger.error(`Error actualizando invitado con ID: ${id}`, error);
       throw error;
@@ -75,9 +75,9 @@ export class InvitadoService {
   async findInvitadoById(id: number): Promise<Invitado | undefined> {
     try {
       this.logger.log(`Buscando invitado con ID: ${id}`);
-      return this.findById(id); // Usamos findById en lugar de findOne
+      return this.invitadoRepository.findOne({ where: { id } }); // Pasamos el id como parte de las opciones
     } catch (error) {
-      this.logger.error(`Error buscando invitado con ID: ${id}`, error);
+      this.logger.error(`Error buscando invitado por ID: ${id}`, error);
       throw error;
     }
   }
@@ -91,14 +91,10 @@ export class InvitadoService {
       throw error;
     }
   }
-
-  private async findById(id: number): Promise<Invitado | undefined> {
-    try {
-      this.logger.log(`Buscando invitado por ID: ${id}`);
-      return this.invitadoRepository.findOne({ where: { id } }); // Pasamos el id como parte de las opciones
-    } catch (error) {
-      this.logger.error(`Error buscando invitado por ID: ${id}`, error);
-      throw error;
-    }
-  }
 }
+
+
+
+
+
+
