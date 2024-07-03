@@ -28,11 +28,11 @@ export class InvitadoService {
 
       // Guardar el nuevo invitado en la base de datos
       const nuevoInvitado = await this.invitadoRepository.save(invitadoData);
-      // this.logger.log('Invitado registrado:', JSON.stringify(nuevoInvitado));
+      this.logger.log('Invitado registrado:', JSON.stringify(nuevoInvitado));
 
       // Enviar correo de confirmación al nuevo invitado
       await this.mailService.sendRegistrationEmail(nuevoInvitado.correo_electronico, nuevoInvitado.nombre);
-      // this.logger.log(`Correo de confirmación enviado a: ${nuevoInvitado.correo_electronico}`);
+      this.logger.log(`Correo de confirmación enviado a: ${nuevoInvitado.correo_electronico}`);
 
       return nuevoInvitado;
     } catch (error) {
