@@ -4,12 +4,14 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Configuración de CORS si es necesario
   app.enableCors({
-    origin: ['https://casa-abierta.online', 'http://localhost:4200'], // Orígenes permitidos, incluye tu dominio de producción y local
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos permitidos
-    credentials: true, // Habilita el uso de cookies
+    origin: ['https://casa-abierta.online', 'http://localhost:4200'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
   });
 
-  await app.listen(3000); // Puerto en el que escucha tu aplicación NestJS
+  await app.listen(3000); // Escucha en el puerto 3000
 }
+
 bootstrap();

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, Repository } from 'typeorm';
 import { Invitado } from './invitado.entity';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from 'src/mail/mail.service'; // Importamos el servicio de correo
 
 @Injectable()
 export class InvitadoService {
@@ -11,13 +11,14 @@ export class InvitadoService {
   constructor(
     @InjectRepository(Invitado)
     private readonly invitadoRepository: Repository<Invitado>,
-    private readonly mailService: MailService, // Inyectar el servicio de correo
+    private readonly mailService: MailService, // Inyectamos el servicio de correo
   ) {}
 
   async registrarInvitado(invitadoData: Invitado): Promise<Invitado> {
     try {
       this.logger.log('Intentando registrar invitado:', JSON.stringify(invitadoData));
       
+      // Obtener el último número de invitación registrado para generar uno nuevo
       const lastInvitado = await this.invitadoRepository.find({
         order: { numero_invitacion: 'DESC' },
         take: 1,
@@ -25,10 +26,11 @@ export class InvitadoService {
       const lastNumber = lastInvitado.length > 0 ? lastInvitado[0].numero_invitacion : 0;
       invitadoData.numero_invitacion = lastNumber + 1;
 
+      // Guardar el nuevo invitado en la base de datos
       const nuevoInvitado = await this.invitadoRepository.save(invitadoData);
       this.logger.log('Invitado registrado:', JSON.stringify(nuevoInvitado));
 
-      // Enviar correo de confirmación
+      // Enviar correo de confirmación al nuevo invitado
       await this.mailService.sendRegistrationEmail(nuevoInvitado.correo_electronico, nuevoInvitado.nombre);
       this.logger.log(`Correo de confirmación enviado a: ${nuevoInvitado.correo_electronico}`);
 

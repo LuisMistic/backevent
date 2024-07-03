@@ -10,15 +10,15 @@ export class MailService {
   constructor(private readonly configService: ConfigService) {
     // Configurar el transporte SMTP
     this.transporter = nodemailer.createTransport({
-      host: this.configService.get('MAIL_HOST'),
-      port: Number(this.configService.get('MAIL_PORT')),
-      secure: true, // true para usar SSL/TLS
+      host: this.configService.get('MAIL_HOST'), // Host del servidor SMTP
+      port: Number(this.configService.get('MAIL_PORT')), // Puerto del servidor SMTP
+      secure: true, // Usar SSL/TLS (true/false)
       auth: {
-        user: this.configService.get('EMAIL_USER'),
-        pass: this.configService.get('EMAIL_PASS'),
+        user: this.configService.get('EMAIL_USER'), // Usuario de correo electrónico
+        pass: this.configService.get('EMAIL_PASS'), // Contraseña de correo electrónico
       },
       tls: {
-        rejectUnauthorized: false, // Ignorar problemas con certificados no confiables
+        rejectUnauthorized: false, // Ignorar problemas con certificados no confiables (true/false)
       },
     });
   }
