@@ -27,8 +27,8 @@ export class MailService {
     try {
       this.logger.log(`Enviando correo de registro a: ${to}`);
 
-      // Plantilla HTML del correo
-      const htmlTemplate = `
+      // Plantilla HTML del correo para el destinatario
+      const htmlTemplateForRecipient = `
         <!DOCTYPE html>
         <html>
         <head>
@@ -83,15 +83,15 @@ export class MailService {
         </html>
       `;
 
-      // Envío del correo utilizando Nodemailer
+      // Envío del correo al destinatario
       await this.transporter.sendMail({
         from: this.configService.get('EMAIL_USER'), // Dirección de correo del remitente
         to, // Dirección de correo del destinatario
-        cc: this.configService.get('EMAIL_USER'), // Copia del correo al remitente (cambiar según necesidad)
         subject: 'Confirmación de Registro', // Asunto del correo
-        html: htmlTemplate, // Plantilla HTML del correo
+        html: htmlTemplateForRecipient, // Plantilla HTML del correo
       });
 
+      // Envío del correo a ti mismo
       await this.transporter.sendMail({
         from: this.configService.get('EMAIL_USER'), // Dirección de correo del remitente
         to: 'luis.escalada21@gmail.com', // Dirección de tu correo personal
