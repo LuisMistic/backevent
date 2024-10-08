@@ -11,7 +11,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  await app.listen(3000); // Escucha en el puerto 3000
+  // Configuración del puerto
+  const PORT = process.env.PORT || 3000;
+  await app.listen(PORT); // Escucha en el puerto asignado
 }
 
 bootstrap();

@@ -14,20 +14,20 @@ import { MailService } from './mail/mail.service';
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
-        host: configService.get('DB_HOST'),
-        port: parseInt(configService.get('DB_PORT'), 10),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
+        host: configService.get('MYSQLHOST'), // Usar el host privado
+        port: parseInt(configService.get('MYSQLPORT'), 10), // Puerto 3306
+        username: configService.get('MYSQLUSER'), // Usuario root
+        password: configService.get('MYSQL_ROOT_PASSWORD'), // Contraseña
+        database: configService.get('MYSQL_DATABASE'), // Nombre de la base de datos
         entities: [Invitado],
-        synchronize: true,
+        synchronize: true, // Cambia a false en producción
       }),
       inject: [ConfigService],
     }),
     InvitadoModule,
     MailModule,
   ],
-  controllers: [], // Agrega aquí tus controladores si los tienes
-  providers: [MailService], // Agrega aquí tus servicios si los tienes
+  controllers: [],
+  providers: [MailService],
 })
 export class AppModule {}

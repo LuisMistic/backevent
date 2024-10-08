@@ -11,7 +11,7 @@ export class MailService {
     this.transporter = nodemailer.createTransport({
       host: this.configService.get('MAIL_HOST'),
       port: Number(this.configService.get('MAIL_PORT')),
-      secure: true,
+      secure: false, // Cambiado a false si usas 587
       auth: {
         user: this.configService.get('EMAIL_USER'),
         pass: this.configService.get('EMAIL_PASS'),
@@ -139,9 +139,24 @@ export class MailService {
       `;
 
       await this.sendEmail(to, 'Confirmación de Registro', htmlTemplateForRecipient);
-      await this.sendEmail('luis.escalada21@gmail.com', 'Nuevo Registro de Invitado', `Se ha registrado un nuevo invitado: ${name} (${to})`);
-
-      this.logger.log(`Correos de registro enviados a: ${to} y ${'luis.escalada21@gmail.com'}`);
+      this.logger.log(`Correo de registro enviado a: ${to}`);
     } catch (error) {
       this.logger.error(`Error enviando correo de registro a: ${to}`, error);
-    }}}
+      throw error;
+    }
+  }
+
+  async sendConfirmationToAdmin(name: string, email: string) {
+    try {
+      const adminEmail = 'luis.escalada21@gmail.com';
+      const subject = 'Nuevo Registro de Invitado';
+      const htmlContent = `Se ha registrado un nuevo invitado: ${name} (${email})`;
+
+      await this.sendEmail(adminEmail, subject, htmlContent);
+      this.logger.log(`Correo de confirmación enviado al administrador: ${adminEmail}`);
+    } catch (error) {
+      this.logger.error(`Error enviando correo de confirmación al administrador`, error);
+      throw error;
+    }
+  }
+}
